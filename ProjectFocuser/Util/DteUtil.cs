@@ -289,8 +289,26 @@ namespace ProjectFocuser
 			// Iterate Project References and load those
 			foreach (XmlNode projectReference in project.XmlDocument.GetElementsByTagName("ProjectReference"))
 			{
+                // Get next Project Name
+                projectName = projectReference["Name"]?.InnerText;
+
+                // No Name field? Try Name attribute
+                if (projectName == null)
+                {
+                    projectName = projectReference.Attributes["Name"]?.Value;
+                }
+
+                // No Name field? Try Include attribute
+                if (projectName == null)
+                {
+                    projectName = projectReference.Attributes["Include"]?.Value?.Between("\\", ".csproj");
+                }
+
+                // Skip Projects that have no Name
+                if (projectName == null) continue;
+
 				// Extract Project Name of Reference and call LoadProject recursively
-				LoadProject(solution4, projectReference["Name"].InnerText);
+				LoadProject(solution4, projectName);
 			}
 
 			// Reload Target Project in Visual Studio
