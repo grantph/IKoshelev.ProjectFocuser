@@ -1,9 +1,11 @@
-﻿using ProjectFocuser.Commands;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+
+using ProjectFocuser.Commands;
 
 
 namespace ProjectFocuser
@@ -25,7 +27,7 @@ namespace ProjectFocuser
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string)]
+    //[ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string)]
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
@@ -59,19 +61,19 @@ namespace ProjectFocuser
         /// </summary>
         protected override void Initialize()
         {
-            RoslynSolutionAnalysis.EnsureMaxVisualStudioMsBuildVersionHasBeenRegistered();
+            //RoslynSolutionAnalysis.EnsureMaxVisualStudioMsBuildVersionHasBeenRegistered();
 
             // All
             UnloadAllProjectsCommand.Initialize(this);
             LoadAllProjectsCommand.Initialize(this);
-            EnsureOnlySelectedProjReferencesAreLoadedCommand.Initialize(this);
+            //EnsureOnlySelectedProjReferencesAreLoadedCommand.Initialize(this);
             AddSelectedProjectsAndReferencesCommand.Initialize(this);
             CompileAllInBackgroundCommand.Initialize(this);
-            AddProjectsReferencingSelectedCommand.Initialize(this);
+            //AddProjectsReferencingSelectedCommand.Initialize(this);
 
             // Backup & Restore .suo
-            SaveCurrentSuoCommand.Initialize(this);
-            RestorePresavedSuoCommand.Initialize(this);
+            //SaveCurrentSuoCommand.Initialize(this);
+            //RestorePresavedSuoCommand.Initialize(this);
 
             base.Initialize();
         }
@@ -87,7 +89,7 @@ namespace ProjectFocuser
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await base.InitializeAsync(cancellationToken, progress);
-        
+
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);

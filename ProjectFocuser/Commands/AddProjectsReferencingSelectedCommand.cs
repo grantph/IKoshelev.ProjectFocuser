@@ -1,7 +1,8 @@
-﻿using EnvDTE;
+﻿using System;
+
+using EnvDTE;
+
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using System;
 
 namespace ProjectFocuser.Commands
 {
@@ -38,7 +39,7 @@ namespace ProjectFocuser.Commands
 
             IRoslynSolutionAnalysis roslyn = new RoslynSolutionAnalysis();
 
-            var allProjectNamesToLoad = roslyn.GetProjectsDirectlyReferencing(dte.Solution.FileName, selectedProjectNames);
+            var allProjectNamesToLoad = roslyn.GetProjectsDirectlyReferencingAsync(dte.Solution.FileName, selectedProjectNames).Result;
 
             DteUtil.EnsureProjectsLoadedByNames(dte, allProjectNamesToLoad, false);
 

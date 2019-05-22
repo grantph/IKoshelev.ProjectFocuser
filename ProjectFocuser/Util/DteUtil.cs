@@ -1,21 +1,20 @@
-﻿using EnvDTE;
-using EnvDTE80;
-using Microsoft.CodeAnalysis.MSBuild;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace ProjectFocuser
 {
-	public static class DteUtil
+    public static class DteUtil
 	{
+
 		public static bool IsCsproj(this Project proj)
 		{
 			var isCsproj = proj.UniqueName.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase);
@@ -43,6 +42,7 @@ namespace ProjectFocuser
 
 			return isFolder;
 		}
+
 		public static bool IsFolder(this ProjectItem proj)
 		{
 			var isFolder = proj.Kind == EnvDTE.Constants.vsProjectKindSolutionItems;

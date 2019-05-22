@@ -1,8 +1,10 @@
-﻿using EnvDTE;
+﻿using System;
+
+using EnvDTE;
+
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using System;
 
 namespace ProjectFocuser.Commands
 {
@@ -42,7 +44,7 @@ namespace ProjectFocuser.Commands
             customPane.OutputStringThreadSafe($"Starting full compilation of {slnPath}\r\n");
 
             IRoslynSolutionAnalysis roslyn = new RoslynSolutionAnalysis();
-            roslyn.CompileFullSolutionInBackgroundAndReportErrors(slnPath, (message) => customPane.OutputStringThreadSafe(message));
+            roslyn.CompileFullSolutionInBackgroundAndReportErrorsAsync(slnPath, (message) => customPane.OutputStringThreadSafe(message)).GetAwaiter();
         }
 
 
